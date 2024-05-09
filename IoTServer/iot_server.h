@@ -11,32 +11,34 @@
 #include <string.h>
 #include <stdexcept>
 
+#define OK "OK"
+#define NOK "NOK"
 
-class udp_server_runtime_error : public std::runtime_error {
+
+class UDPServer_runtime_error : public std::runtime_error {
 public:
-    udp_server_runtime_error(const char *w) : std::runtime_error(w) {}
+	UDPServer_runtime_error(const char *msg) : std::runtime_error(msg){
+
+	}
 };
 
-class udp_server {
+class UDPServer {
 public:
-	udp_server(const std::string& addr, int port);
-    ~udp_server();
+	UDPServer(const std::string addr, const std::string port);
+    ~UDPServer();
 
-    int get_socket() const;
-    int get_port() const;
-    std::string get_addr() const;
+    int GetServerSocket(void) const;
+    int GetServerPort(void) const;
+    std::string GetServerAddr(void) const;
 
-    int receive(char *msg, size_t max_size);
-    int timed_receive(char *msg, size_t max_size, int max_wait_ms);
-    int send(const char *msg, size_t size);
+    int Receive(char *msg, size_t maxSize);
+    int Send(const char *msg, size_t size);
 
 private:
-    int f_socket;
-    int f_port;
-    std::string f_addr;
-    struct addrinfo* f_addrinfo;
+    std::string mServerSocket;
+    std::string mServerPort;
+    std::string mServerAddr;
+    struct addrinfo* mServerAddrinfo;
 };
 
 #endif /* IOT_SERVER_H_ */
-// SNAP_UDP_CLIENT_SERVER_H
-// vim: ts=4 sw=4 et

@@ -1,8 +1,9 @@
 #include "iot_server.h"
 #include <iostream>
 
-int main() {
+int main(void) {
     std::string server_address = "192.168.1.168";
+    std::string client_address;
     int server_port = 5000;
 
     try {
@@ -11,10 +12,12 @@ int main() {
 
         char buffer[1024];
         while (true) {
+        	std::cout << "Waiting for message..." << std::endl;
             int received_bytes = server.receive(buffer, sizeof(buffer));
             if (received_bytes > 0) {
                 buffer[received_bytes] = '\0';
                 std::cout << "Received message: " << buffer << std::endl;
+                server.send()
             }
         }
     } catch (const std::exception &e) {
