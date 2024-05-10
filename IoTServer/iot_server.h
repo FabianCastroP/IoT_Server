@@ -18,24 +18,23 @@
 class UDPServer_runtime_error : public std::runtime_error {
 public:
 	UDPServer_runtime_error(const char *msg) : std::runtime_error(msg){
-
 	}
 };
 
 class UDPServer {
 public:
-	UDPServer(const std::string addr, const std::string port);
+	UDPServer(std::string addr, std::string port);
     ~UDPServer();
 
     int GetServerSocket(void) const;
-    int GetServerPort(void) const;
+    std::string GetServerPort(void) const;
     std::string GetServerAddr(void) const;
 
     int Receive(char *msg, size_t maxSize);
-    int Send(const char *msg, size_t size);
+    int Send(const std::string clientAddr, const std::string clientPort, std::string msg, size_t size);
 
 private:
-    std::string mServerSocket;
+    int mServerSocket;
     std::string mServerPort;
     std::string mServerAddr;
     struct addrinfo* mServerAddrinfo;
