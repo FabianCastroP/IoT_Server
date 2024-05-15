@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
+#include <iostream>
 
 UDPServer::UDPServer(std::string ServerAddr, std::string ServerPort)
     : mServerPort(ServerPort), mServerAddr(ServerAddr) {
@@ -40,6 +41,15 @@ UDPServer::~UDPServer() {
     close(mServerSocket);
 }
 
+int UDPServer::CloseServerSocket(void) {
+	if (0 == close(mServerSocket)) {
+		std::cout << "Server socket closed successfully" << std::endl;
+		return 1;
+	}
+	std::cout << "Error! Couldn't close server's socket" << std::endl;
+	return 0;
+}
+
 int UDPServer::GetServerSocket(void) const {
     return mServerSocket;
 }
@@ -53,7 +63,7 @@ std::string UDPServer::GetServerAddr(void) const {
 }
 
 int UDPServer::Receive(char *msg, size_t maxSize) {
-    return recv(mServerSocket, msg, maxSize, 0);		//Estaba como ::recv(...) -> por qué? (scope operator)
+    return recv(mServerSocket, msg, maxSize, 0);
 }
 
 int UDPServer::Send(const std::string clientAddr, const std::string clientPort, std::string msg, size_t size) {
@@ -64,7 +74,14 @@ int UDPServer::Send(const std::string clientAddr, const std::string clientPort, 
 	hints.ai_socktype = SOCK_DGRAM;
     hints.ai_protocol = IPPROTO_UDP;
 
+    std::cout << "clientAddr: " << clientAddr << std::endl;
+    std::cout << "clientPort: " << clientPort << std::endl;
+    std::cout << "msg: " << msg << std::endl;
+    std::cout << "size: " << size << std::endl;
+
     int r (getaddrinfo(clientAddr.c_str(), clientPort.c_str(), &hints, &clientAddrinfo));
+
+    std::cout << "r: " << r << std::endl;
 
 	if(r != 0 || clientAddrinfo == NULL) {
 		throw UDPServer_runtime_error(("invalid address or port: \"" + clientAddr + ":" + clientPort + "\"").c_str());
@@ -80,6 +97,7 @@ int UDPServer::Send(const std::string clientAddr, const std::string clientPort, 
 	if((clientSocket = socket(AF_INET, SOCK_DGRAM, 0)) < 0){
 		UDPServer_runtime_error("Creation socket failed");
 		close(clientSocket);
+		return 0;
 	}
 
     int sendMsg = sendto(clientSocket, msg.c_str(), size, 0, clientAddrinfo->ai_addr, clientAddrinfo->ai_addrlen);
@@ -88,7 +106,8 @@ int UDPServer::Send(const std::string clientAddr, const std::string clientPort, 
     if(sendMsg == -1){
     	UDPServer_runtime_error("Creation socket failed");
         close(clientSocket);
+        return 0;
     }
 
-    return sendMsg;
+    return 1;
 }

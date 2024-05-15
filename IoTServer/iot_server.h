@@ -1,19 +1,8 @@
-/*
- * iot_server.h
- *
- *  Created on: Apr 20, 2024
- *      Author: ubuntu
- */
-
 #ifndef IOT_SERVER_H_
 #define IOT_SERVER_H_
 
 #include <string.h>
 #include <stdexcept>
-
-#define OK "OK"
-#define NOK "NOK"
-
 
 class UDPServer_runtime_error : public std::runtime_error {
 public:
@@ -25,7 +14,7 @@ class UDPServer {
 public:
 	UDPServer(std::string addr, std::string port);
     ~UDPServer();
-
+    int CloseServerSocket(void);
     int GetServerSocket(void) const;
     std::string GetServerPort(void) const;
     std::string GetServerAddr(void) const;
