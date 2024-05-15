@@ -1,6 +1,6 @@
 LIBS= -lpthread -lm 	#Libraries used if needed
 
-SRCS= main.cpp accelerometer.cpp colorimeter.cpp i2cdevice.cpp iot_server.cpp
+SRCS= main.cpp accelerometer.cpp colorimeter.cpp i2cdevice.cpp UDPCommunication.cpp
 
 BIN=app
 CFLAGS+= -g -O0

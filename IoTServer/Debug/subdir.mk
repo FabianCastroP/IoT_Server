@@ -4,15 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../iot_server.cpp \
+../UDPCommunication.cpp \
 ../main.cpp 
 
 CPP_DEPS += \
-./iot_server.d \
+./UDPCommunication.d \
 ./main.d 
 
 OBJS += \
-./iot_server.o \
+./UDPCommunication.o \
 ./main.o 
 
 
@@ -28,7 +28,7 @@ OBJS += \
 clean: clean--2e-
 
 clean--2e-:
-	-$(RM) ./iot_server.d ./iot_server.o ./main.d ./main.o
+	-$(RM) ./UDPCommunication.d ./UDPCommunication.o ./main.d ./main.o
 
 .PHONY: clean--2e-
 

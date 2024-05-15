@@ -1,2 +1,2 @@
-main.o: ../main.cpp ../iot_server.h
-../iot_server.h:
+main.o: ../main.cpp ../UDPCommunication.h
+../UDPCommunication.h:
