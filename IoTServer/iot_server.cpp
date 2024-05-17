@@ -74,14 +74,7 @@ int UDPServer::Send(const std::string clientAddr, const std::string clientPort, 
 	hints.ai_socktype = SOCK_DGRAM;
     hints.ai_protocol = IPPROTO_UDP;
 
-    std::cout << "clientAddr: " << clientAddr << std::endl;
-    std::cout << "clientPort: " << clientPort << std::endl;
-    std::cout << "msg: " << msg << std::endl;
-    std::cout << "size: " << size << std::endl;
-
     int r (getaddrinfo(clientAddr.c_str(), clientPort.c_str(), &hints, &clientAddrinfo));
-
-    std::cout << "r: " << r << std::endl;
 
 	if(r != 0 || clientAddrinfo == NULL) {
 		throw UDPServer_runtime_error(("invalid address or port: \"" + clientAddr + ":" + clientPort + "\"").c_str());
